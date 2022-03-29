@@ -1,0 +1,71 @@
+\documentclass{amsart}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{enumitem}
+
+\title{COSC-373: Homework 2}
+\author{Lee Jiaen}
+\author{Hyery Yoo}
+\author{Alexander Lee}
+
+\theoremstyle{definition}
+\newtheorem{question}{Question}
+
+\begin{document}
+
+\maketitle
+
+\begin{question}
+  TODO
+\end{question}
+
+\begin{question}
+  TODO
+\end{question}
+
+\begin{question}
+  \begin{enumerate}[label={(\alph*)}]
+    \item We proceed with devising a greedy algorithm that is guaranteed to
+      produce a proper $\Delta + 1$ coloring of $G$. The algorithm executes as
+      follows:
+      \begin{enumerate}[label={(\arabic*)}]
+        \item Initialize an empty set $C$, which represents the set of colors.
+        \item Assign any vertex in $V$ the color 1 and add 1 to $C$.
+        \item Choose an uncolored vertex $v \in V$. Assign $v$ the smallest
+          color in $C$ that has not been assigned to $v$'s colored neighbors. If
+          $v$'s colored neighbors have been assigned all the colors in $C$, add
+          a new color $\max\{C\} + 1$ to $C$ and assign it to $v$.
+        \item Repeat step (2) until all vertices are colored.
+      \end{enumerate}
+      Since the algorithm assigns an uncolored vertex $v \in V$ with the lowest
+      color in $C$ that has not been assigned to $v$'s neighbors or assigns $v$
+      with a new color not yet in $C$, no two neighboring vertices are assigned
+      the same color. Furthermore, because the algorithm only adds a new color
+      to $C$ when all neighbors of $v$ have been assigned all the colors in $C$
+      and $v$ has at most $\Delta$ neighbors, the algorithm adds at most $\Delta
+      + 1$ colors to $C$. Thus, only $\Delta + 1$ colors are required.
+      Therefore, the algorithm produces a proper $\Delta + 1$ coloring of $G$.
+    \item Consider the graph $G_k = (V_k, E_k)$, where $V_k = \{1, 2, \ldots,
+      \Delta + 1\}$ and $E_k = \{(1, 2), (1, 3), \ldots, (1, \Delta + 1)\} \cup
+      \{(2, 3), (3, 4), \ldots, (\Delta, \Delta + 1)\}$. Here, vertex 1 has a
+      degree equal to $\Delta$ and every other vertex in $G_k$ has a degree of
+      at most $\Delta$. Clearly, the maximum degree is $\Delta$. Using colors
+      from the range $1, 2, \ldots, \Delta$, regardless of how colors are
+      assigned to the vertices in $G_k$, at least two neighboring vertices will
+      be assigned the same colors. Thus, $G_k$ does not admit a proper $\Delta$
+      coloring.
+    \item
+      done $\gets$ false \\
+      Each round $i$:
+      \begin{itemize}
+        \item If not done:
+          \begin{itemize}
+            \item Execute protocol $\Pi$ where node outputs $i$ if it is in the
+              MIS.\@
+            \item done $\gets$ true
+          \end{itemize}
+      \end{itemize}
+  \end{enumerate}
+\end{question}
+
+\end{document}
