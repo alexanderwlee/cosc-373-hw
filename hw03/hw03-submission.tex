@@ -47,15 +47,17 @@
       + 1$ colors to $C$. Thus, only $\Delta + 1$ colors are required.
       Therefore, the algorithm produces a proper $\Delta + 1$ coloring of $G$.
 
-    \item Consider the graph $G_k = (V_k, E_k)$, where $V_k = \{1, 2, \ldots,
-      \Delta + 1\}$ and $E_k = \{(1, 2), (1, 3), \ldots, (1, \Delta + 1)\} \cup
-      \{(2, 3), (3, 4), \ldots, (\Delta, \Delta + 1)\}$. Here, vertex 1 has a
-      degree equal to $\Delta$ and every other vertex in $G_k$ has a degree of
-      at most $\Delta$. Clearly, the maximum degree is $\Delta$. Using colors
-      from the range $1, 2, \ldots, \Delta$, regardless of how colors are
-      assigned to the vertices in $G_k$, at least two neighboring vertices will
-      be assigned the same colors. Thus, $G_k$ does not admit a proper $\Delta$
-      coloring.
+    \item Consider the graph $G_k$ of $\Delta + 1$ vertices, where each vertex
+      is connected to every other vertex. In this case, every vertex has a
+      degree of $\Delta$, so the maximum degree is $\Delta$. Now, suppose
+      towards a contradiction that we have a $\Delta$ proper coloring of $G_k$.
+      Thus, at most $\Delta$ colors have been assigned to $\Delta + 1$ vertices
+      of $G_k$. By the Pigeonhole Principle, at least two vertices in $G_k$ have
+      been assigned the same color. Since every vertex is connected to every
+      other vertex, these two vertices with the same color are neighbors. This
+      is a contradiction since we assumed that we have a $\Delta$ proper
+      coloring of $G_k$, where no two neighboring vertices are assigned the same
+      color. Therefore, $G_k$ does not admit a proper $\Delta$ coloring.
 
     \item Each phase $i$:
       \begin{itemize}
@@ -71,10 +73,19 @@
       phase $i$ output color $i$. Neighboring nodes will not output the same
       color since they belong to different maximal independent sets.
 
-      (Runtime) Since each node requires at most $\Delta + 1$ phases to output a
-      color $i$ and each phase runs in $T(n)$ rounds, the protocol thus computes
-      a property $\Delta + 1$ coloring of $G$ in $O((\Delta + 1) T(n)) =
-      O(\Delta T(n) + T(n)) = O(\Delta T(n))$ rounds.
+      (Runtime) After each phase if a node is not in a MIS, then at least one of
+      its neighbors becomes part of an MIS, by the maximality condition.
+      As such, after each phase, a node's degree decreases by at least one.
+      Since a node has at most $\Delta$ neighbors, at most $\Delta$ phases are
+      needed so that all it's neighbors are assigned a color. Hence, each node
+      requires at most $\Delta + 1$ phases to output a color $i$. Since each
+      phase runs in $T(n)$ rounds, the protocol thus computes a property $\Delta
+      + 1$ coloring of $G$ in $O((\Delta + 1) T(n)) = O(\Delta T(n) + T(n)) =
+      O(\Delta T(n))$ rounds.
+
+      (Congestion) Since the above protocol uses the CONGEST protocol $\Pi$ and
+      apart from in protocol $\Pi$, nodes do not send messages to each other,
+      the protocol above is a CONGEST protocol.
   \end{enumerate}
 \end{question}
 
