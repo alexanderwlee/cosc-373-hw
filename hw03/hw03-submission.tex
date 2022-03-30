@@ -61,10 +61,14 @@
 
     \item Each phase $i$:
       \begin{itemize}
+        \item If received message ``halted'' from neighbor in phase $i - 1$
+          \begin{itemize}
+            \item Remove neighbor from set of neighbors
+          \end{itemize}
         \item Execute protocol $\Pi$
         \item If node is in the MIS found from $\Pi$
           \begin{itemize}
-            \item Output $i$ and halt
+            \item Output $i$, send message ``halted'' to neighbors, and halt
           \end{itemize}
       \end{itemize}
 
@@ -84,8 +88,9 @@
       O(\Delta T(n))$ rounds.
 
       (Congestion) Since the above protocol uses the CONGEST protocol $\Pi$ and
-      apart from in protocol $\Pi$, nodes do not send messages to each other,
-      the protocol above is a CONGEST protocol.
+      apart from in protocol $\Pi$, nodes only send the messages ``halted'' to
+      neighbors, which only require $O(1)$ bits, the protocol above is therefore
+      a CONGEST protocol.
   \end{enumerate}
 \end{question}
 
