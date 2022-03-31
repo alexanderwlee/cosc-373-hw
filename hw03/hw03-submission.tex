@@ -3,7 +3,7 @@
 \usepackage[vlined,linesnumbered]{algorithm2e}
 \usepackage{enumitem}
 
-\title{COSC-373: Homework 2}
+\title{COSC-373: Homework 3}
 \author{Lee Jiaen}
 \author{Hyery Yoo}
 \author{Alexander Lee}
@@ -16,7 +16,46 @@
 \maketitle
 
 \begin{question}
-  TODO
+\begin{enumerate}[label={(\alph*)}]
+\item We first use the LE/BFS protocol from class and Diameter protocol from HRW 2 to find the leader, BFS tree, and Diameter (D).
+\item Each node then does the following:
+    \begin{algorithm}[h]
+      \DontPrintSemicolon%
+      $local\_counter \gets t_v$\;
+      $second\_counter \gets 0$\;
+      $status \gets inactive$\;
+      $reset\_cntdown \gets D$\;
+      \ForEach{round $i \in \{0, 1, \dots, d\}$}{
+        \If{$i = 0$}{
+          leader sets $status$ = active\;
+          leader sends $reset\_cntdown - 1$\ as a message to its neighbors\;
+        }
+        \If{received messages}{
+          set $reset\_cntdown$ = message\;
+          set $status$ = active\;
+          send $reset\_cntdown - 1$\ as a message to its neighbors\;
+        }
+        \If{$status$ = active}{
+            \If{$second\_counter$ = $reset\_cntdown$}{
+            set $local\_counter$ = 0\;
+            set $status$ = inactive\;
+            }
+            \Else {
+            $second\_counter$ ++\;
+            }
+        }
+        $local\_counter$ ++\;
+      }
+      \Return
+    \end{algorithm}
+    
+    (Correctness) The protocol above goes through the BFS tree starting from the leader node, which is found by the LE/BFS protocol discussed in class. After using the Diameter protocol in HRW2, every node will know the diameter and know that it will take D rounds to get from the leader to the furthest away node in the BFS tree. Therefore, the leader decides to wait D rounds until resetting and then letting its neighbors know to wait one less round and then those nodes will let their neighbors know to wait one less round and so on. The message that a node receives, tells the node how many more rounds it will take until we reach the end of the BFS tree. Furthermore, $second\_counter$ and $reset\_cntdown$ help each node to keep track of when to reset and $second\_counter$ only start incriminating after the node has received a message and updated its $status$ to active. In $r_0$ = round D, we would have reached the every node in the BFS tree and the furthest node/nodes from the leader in the BFS tree will be told to wait 0 rounds to reset. Those nodes will then have $second\_counter$ = $reset\_cntdown$ and immediately reset $local\_counter$ to 0. In the same round, every other node in the BFS tree would also have $second\_counter$ = $reset\_cntdown$ and reset $local\_counter$ to 0. BFS, ensures that we reach every node in the graph. Thus, the above protocol is correct because all nodes would reset $local\_counter$ to 0 in $r_0$ = round D. 
+
+      (Runtime) All nodes reset after the message reaches the last furthest node in the BFS. The diameter D of a BFS tree is the distance from the root or leader node to the furthest node of the BFS tree. Therefore, it will take at least D rounds for the leader to notify the furthest away node in the BFS tree that they would like to reset. If we have less than D rounds, then the furthest away nodes would not be notified of the reset and fail to reset at the same time as the other nodes in the BFS tree. Thus, this will take O(D) rounds. We also know that the LE/BFS and Diameter algorithm will take also O(D) rounds. Therefore, this protocol will take O(D) rounds.  
+      
+      (Congestion) We already know that the CONGEST protocol BE/LFS from class and Diameter protocol from HRW2 send less than $O(nlogn)$ bits. Furthermore, the protocol above has nodes only send messages containing a constant that indicates how many more rounds until a reset, which only require $O(1)$ bits. Therefore, the protocol above is a CONGEST protocol.
+\end{enumerate}
+
 \end{question}
 
 \begin{question}
