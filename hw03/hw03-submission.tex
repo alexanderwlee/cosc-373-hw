@@ -17,7 +17,9 @@
 
 \begin{question}
 \begin{enumerate}[label={(\alph*)}]
-\item We first use the LE/BFS/SSP protocol from class to find the leader, BFS tree, and let the leader know the distance from the furthest node/nodes which is labeled as "Dist".
+\item We first use the LE/BFS/SSSP protocol from class to find the leader, BFS
+  tree, and let the leader know the distance from the furthest node/nodes which
+  is labeled as ``Dist''.
 \item Each node then does the following:
     \begin{algorithm}[h]
       \DontPrintSemicolon%
@@ -40,49 +42,49 @@
             set $local\_counter$ = 0\;
             set $status$ = inactive\;
             }
-            \Else {
+            \Else{
             $second\_counter$ ++\;
             }
         }
         $local\_counter$ ++\;
       }
-      \Return
+      \Return\
     \end{algorithm}
-    
-    (Correctness) The protocol above uses the LE/BFS/SSP protocol discussed in
+
+    (Correctness) The protocol above uses the LE/BFS/SSSP protocol discussed in
     class to elect a leader, find a BFS tree, and notify the leader of the
-    distance from the leader to the furthest node/nodes in O(D) rounds. The
-    leader then knows that it will take "Dist" (which can be at most D) rounds to
+    distance from the leader to the furthest node/nodes in $O(D)$ rounds. The
+    leader then knows that it will take ``Dist'' (which can be at most $D$) rounds to
     get from the leader to the furthest away node/nodes. Therefore, the leader
-    decides to wait "Dist" rounds before resetting and then lets its neighbors
+    decides to wait ``Dist'' rounds before resetting and then lets its neighbors
     know to wait one less round and then those nodes let their neighbors know to
     wait one less round and so on. The message that a node receives, tells the
     node how many rounds to wait until resetting or how many rounds it will take
     until we reach the furthest node/nodes. Furthermore, $second\_counter$ and
     $reset\_cntdown$ help each node to keep track of when to reset and
     $second\_counter$ only starts incriminating after the node has received a
-    message and updated its $status$ to active. In $r_0$ = O(D), we would have
-    reached every node in the BFS tree and the furthest node/nodes from the 
-    leader in the BFS tree will be told to wait 0 rounds to reset. The furthest 
-    node/nodes will then have $second\_counter$ = $reset\_cntdown$ = 0 and 
-    immediately reset $local\_counter$ to 0. In the same round, every other node 
-    in the BFS tree would also have $second\_counter$ = $reset\_cntdown$ and 
-    reset $local\_counter$ to 0. BFS, ensures that we reach every node in the 
-    graph. Thus, the above protocol is correct because all nodes would reset 
-    $local\_counter$ to 0 at the same time in $r_0$ = O(D). 
+    message and updated its $status$ to active. In $r_0 = O(D)$, we would have
+    reached every node in the BFS tree and the furthest node/nodes from the
+    leader in the BFS tree will be told to wait 0 rounds to reset. The furthest
+    node/nodes will then have $second\_counter$ = $reset\_cntdown$ = 0 and
+    immediately reset $local\_counter$ to 0. In the same round, every other node
+    in the BFS tree would also have $second\_counter$ = $reset\_cntdown$ and
+    reset $local\_counter$ to 0. BFS, ensures that we reach every node in the
+    graph. Thus, the above protocol is correct because all nodes would reset
+    $local\_counter$ to 0 at the same time in $r_0 = O(D)$.
 
     (Runtime) All nodes reset after the furthest node/nodes received a message to
-    reset. When we start from the leader, the furthest node/nodes receive a 
-    message to reset in at most D rounds. If we have less than D rounds, then the
-    furthest away nodes could potentially not be notified of the reset and fail 
-    to reset at the same time as the other nodes. Thus, the algorithm above will 
-    take O(D) rounds. We know that the LE/BFS/SSP algorithm will also take O(D) 
-    rounds. Therefore, this protocol will take O(D) rounds.  
-    
-    (Congestion) We already know that the CONGEST protocol LE/BFS/SSP from class 
-    sends less than $O(nlogn)$ bits. Furthermore, the algorithm above has nodes 
-    only send a message containing a constant that indicates how many rounds to 
-    wait until resetting, which only requires $O(1)$ bits. Therefore, this 
+    reset. When we start from the leader, the furthest node/nodes receive a
+    message to reset in at most $D$ rounds. If we have less than $D$ rounds, then the
+    furthest away nodes could potentially not be notified of the reset and fail
+    to reset at the same time as the other nodes. Thus, the algorithm above will
+    take $O(D)$ rounds. We know that the LE/BFS/SSSP algorithm will also take $O(D)$
+    rounds. Therefore, this protocol will take $O(D)$ rounds.
+
+    (Congestion) We already know that the CONGEST protocol LE/BFS/SSSP from class
+    sends less than $O(n \log n)$ bits. Furthermore, the algorithm above has nodes
+    only send a message containing a constant that indicates how many rounds to
+    wait until resetting, which only requires $O(1)$ bits. Therefore, this
     protocol is a CONGEST protocol.
 \end{enumerate}
 \end{question}
