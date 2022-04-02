@@ -55,18 +55,18 @@
     class to elect a leader, find a BFS tree, and notify the leader of the
     distance from the leader to the furthest node/nodes in $O(D)$ rounds. The
     leader then knows that it will take ``Dist'' (which can be at most $D$) rounds to
-    get from the leader to the furthest away node/nodes. Therefore, the leader
+    get from the leader to the furthest node/nodes. Therefore, the leader
     decides to wait ``Dist'' rounds before resetting and then lets its neighbors
     know to wait one less round and then those nodes let their neighbors know to
-    wait one less round and so on. The message that a node receives, tells the
-    node how many rounds to wait until resetting or how many rounds it will take
+    wait one less round and so on. The message that a node receives tells the
+    node how many rounds to wait until resetting, i.e., how many rounds it will take
     until we reach the furthest node/nodes. Furthermore, $second\_counter$ and
-    $reset\_cntdown$ help each node to keep track of when to reset and
+    $reset\_cntdown$ help each node keep track of when to reset and
     $second\_counter$ only starts incriminating after the node has received a
     message and updated its $status$ to active. In $r_0 = O(D)$, we would have
     reached every node in the BFS tree and the furthest node/nodes from the
     leader in the BFS tree will be told to wait 0 rounds to reset. The furthest
-    node/nodes will then have $second\_counter$ = $reset\_cntdown$ = 0 and
+    node/nodes will then have $second\_counter$ = $reset\_cntdown$ and
     immediately reset $local\_counter$ to 0. In the same round, every other node
     in the BFS tree would also have $second\_counter$ = $reset\_cntdown$ and
     reset $local\_counter$ to 0. BFS, ensures that we reach every node in the
