@@ -60,7 +60,7 @@
     back to the leader. At each round, nodes that receive messages will compare 
     the distances they receive to their own, and send a message containing the 
     maximum distance that they have contained thus far. Eventually, the leader 
-    will receive messages and note the maximum distance it encounters as "Dist" 
+    will receive messages and note the maximum distance it encounters as ``Dist''
     and set it's $reset\_cntdown$=Dist. The leader then knows that it will take 
     ``Dist'' (which can be at most $D$) rounds to get from the leader to the 
     furthest node/nodes. Therefore, the leader decides to wait ``Dist'' rounds 
