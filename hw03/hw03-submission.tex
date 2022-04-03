@@ -57,19 +57,20 @@
     distance from the leader to the furthest node/nodes in the BFS tree in $O(D)$
     rounds. We would find the distance from the leader to the furthest node by 
     using SSSP to get all of the nodes' distances from the leader and then have 
-    the leaves of the BFS tree send messages containing the node's distance from 
-    the leader to their parents. At each round, nodes that receive messages 
-    will compare the distances they receive to their own, and send a message 
-    containing the maximum distance that they have encountered so far to their 
-    parent nodes. Eventually, the leader will receive messages and note the 
-    maximum distance it encounters as ``Dist''and set it's $reset\_cntdown$=Dist.
-    The leader then knows that it will take ``Dist'' (which can be at most $D$) 
-    rounds to get from the leader to the furthest node/nodes in the BFS tree. 
-    Therefore, the leader decides to wait ``Dist'' rounds before resetting and 
-    then lets its children know to wait one less round and then those nodes let 
-    their children know to wait one less round and so on. The message that a node
-    receives tells the node how many rounds to wait until resetting, i.e., how 
-    many rounds it will take until we reach the furthest node/nodes. Furthermore,
+    the leaves of the BFS tree send their distance to their parent nodes. At each
+    of the next rounds, each node sends their distance to their parent node and 
+    each parent node (internal node) waits for all its children to send a 
+    message. Once it has received messages from all its children, it takes the 
+    max distance, and sends it to its parent node. Eventually, the leader will 
+    receive messages from all of its children and note the maximum distance it 
+    encounters as ``Dist''and set it's $reset\_cntdown$=Dist. The leader then 
+    knows that it will take ``Dist'' (which can be at most $D$) rounds to get 
+    from the leader to the furthest node/nodes in the BFS tree. Therefore, the 
+    leader decides to wait ``Dist'' rounds before resetting and then lets its 
+    children know to wait one less round and then those nodes let their children 
+    know to wait one less round and so on. The message that a node receives tells
+    the node how many rounds to wait until resetting, i.e., how many rounds it 
+    will take until we reach the furthest node/nodes. Furthermore, 
     $second\_counter$ and $reset\_cntdown$ help each node keep track of when to 
     reset and $second\_counter$ only starts incriminating after the node has 
     received a message and updated its $status$ to active. In $r_0 = O(D)$, we 
