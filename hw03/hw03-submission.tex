@@ -35,7 +35,7 @@
         \If{received messages}{
           set $reset\_cntdown$ = message\;
           set $status$ = active\;
-          broadcast message "$reset\_cntdown - 1$\" to children in BFS tree\;
+          broadcast message $"reset\_cntdown - 1"$\ to children in BFS tree\;
         }
         \If{$status$ = active}{
             \If{$second\_counter$ = $reset\_cntdown$}{
