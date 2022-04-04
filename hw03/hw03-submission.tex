@@ -101,7 +101,48 @@
 \end{question}
 
 \begin{question}
-  TODO
+  \begin{enumerate}[label={(\alph*)}]
+  \item
+    Each node v does the following: 
+    \begin{algorithm}[h]
+      \DontPrintSemicolon%
+      $source \gets $ ID of node given to all nodes\;
+      $current \gets \infty$\;
+      $n \gets$ size of the network\;
+      $M \gets \emptyset$\;
+      
+      \ForEach{round $r$}{
+        \If{$myID = source$}{
+            $current \gets 0$\;
+            send message $current + w(v, u)$ to each neighbor u\;             
+        }
+        \ForEach{message $m$ received from neighbor in round $r-1$}{
+          $M \gets m \cup M$\;
+        }
+        \If{$M \neq \emptyset$}{
+          $new \gets min(M)$\;
+          $M \gets \emptyset$\;
+          \If{$new < current$}{
+            $current \gets new$\;
+            send message $current + w(v, u)$ to each neighbor u\;
+          }
+        }
+        \If{$r = n$}{
+          output $current$ and terminate\;
+        }
+      }
+    \end{algorithm}
+    
+    (Correctness) Edge weight is added to the sum of weights each time a message is sent across an edge, so any message received by node $u$ is the sum of weights along a path from the source node to node $u$. Since the weighted length along a path is independent of the unweighted length of the path, the minimal weighted length does not necssarily arrive at node $u$ before larger weighted lengths. At round $r$, only the smallest message received from a neighbor in rounds 1 through $r-1$ is kept by node $u$, and a new message is sent to node $u$'s neighbors if the minimal weighted length is updated. This is sufficeint to guarantee that node $u$ receives its true minimal weighted length from a neighbor because a least weight path from node $v$ to node $u$ through node $k$ must go through the least weight path from node $v$ to node $k$, and the least weight path from node $v$ to node $u$ must contain at least one of node $u$'s neighbors. 
+
+    (Termination and Runtime) All nodes terminate at round $n$, where $n$ is the size of the network given as input. Messages propagate through the network one edge per round, so the sum of weights along a path from $v_1$ to $v_k$ through $v_2, v_3, \ldots, v_{k-1}$ takes $k-1$ rounds to arrive at $v_k$ from $v_1$. The longest possible least weight path from node $v$ to node $u$ is one that passes through every node in the network, so the correct minimal weighted distance is sent to node $u$ from its neighbor at round $n-1$. In such case, node $u$'s $current$ is updated to the correct weighted distance at round $n$, and the process can terminate. For cases with shorter least weight paths, all nodes must have received the correct minimal weighted distance before round $n-1$, so their $current$ has the correct value at round $n$. Since the algorithm terminates at round $n$, the runtime is $O(n)$.
+
+    (Congestion) The message sent by any node is the smallest sum of weights along the least weight path from the source node. Therefore, the messages are at most a sum of $n-1$ edge weights before the algorihtm terminates at round $n$. Each edge weight can be encoded by $O(logn)$ bits. The largest number that can be encoded by $logn$ bits is $n-1$, so the sum of $n-1$ edge weights is at most $(n-1)(n-1)=O(n^2)$. This number can be encoded by $O(2logn)=O(logn)$ bits, so any message can be encoded within $O(logn)$ bits. The condition for the CONGEST model is satisfied. 
+    
+  \item
+    Let $G$ be a graph with n nodes, $V = {v_1, v_2, \ldots, v_n}$, where each node $v_i$ is connected to every other node in $G$. It follows that the diameter of $G$, $D = 1 = O(1)$. Assume that $w(v_1, v_2) = w(v_2, v_3) = \ldots = w(v_{n-1}, v_n) = 1$ and the weight of every other edge in $G$ is greater than n. Given source $v_1$, the weighted shortest path from $v_1$ to $v_n$ is $P = (v_1, v_2, \ldots, v_{n-1}, v_n)$ because the weighted length of $P$, $1*(n-1) = n-1$, is necessarily smaller than any path containing an edge with weight larger than n. In each round, the sum of weights travels along one edge and adds the weight of one edge to the sum, so the sum of weights along path $P$ takes $n-1$ rounds to arrive at $v_n$ from $v_1$. Therefore, the algorithm must run for $n$ rounds to solve the w-SSSP problem despite the small diameter of $G$.   
+    
+  \end{enumerate}
 \end{question}
 
 \begin{question}
