@@ -1,0 +1,79 @@
+\documentclass{amsart}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{enumitem}
+
+\title{COSC-373: Homework 4}
+\author{Lee Jiaen}
+\author{Hyery Yoo}
+\author{Alexander Lee}
+
+\theoremstyle{definition}
+\newtheorem{question}{Question}
+
+\begin{document}
+
+\maketitle
+
+\begin{question}
+  Each node $v$ executes as follows.
+
+  Each round:
+  \begin{enumerate}
+    \item Pick a uniformly random color $c(v)$ from the range $1, 2, \ldots, 2
+      \deg(v)$
+    \item Send message $c(v)$ to all neighbors
+    \item If $c(v) \neq c(u)$ for all neighbors $u$, output $c(v)$ and halt
+  \end{enumerate}
+\end{question}
+
+(Runtime) To show that the procedure produces a proper $2 \Delta$ coloring of
+$G$ in $O(\log n)$, first define the random variable $X_v$ for whether a given
+node $v$ halts in a given round. Specifically, $X_v$ is 1 if node $v$ halts in
+the given round, and 0 otherwise. The probability $\mathbb{P}(X_v)$ that node
+$v$ halts in a given round, is the probability $\frac{1}{2 \deg(v)}$ that node $v$
+chooses color $c(v)$ from the $2 \deg(v)$ colors times the probability
+$\frac{\deg(v)}{2 \deg(v) - 1}$ that each of node $v$'s $\deg(v)$ neighbors do
+not choose the color $c(v)$ from the $2 \deg(v)$ colors. That is,
+\begin{align*}
+  \mathbb{P}(X_v) &= \frac{1}{2 \deg(v)} \cdot \frac{\deg(v)}{2 \deg(v) - 1} \\
+  &= \frac{1}{4 \deg(v) - 2} \enspace.
+\end{align*}
+It follows that the expected value $\mathbb{E}(X_v)$ of node $v$ halting in a
+given round is
+\begin{align*}
+  \mathbb{E}(X_v) &= 1 \cdot \frac{1}{4 \deg(v) - 2} + 0 \cdot (1 - \frac{1}{4
+  \deg(v) - 2}) \\
+  &= \frac{1}{4 \deg(v) - 2} \enspace.
+\end{align*}
+Next, define the random variable $X$ for the number of nodes that halt in a
+given round. Given the set of nodes $V$ for graph $G$, we have that
+\[
+  X = \sum_{v \in V} X_v \enspace.
+\]
+Taking the expected value on both sides, we get
+\begin{align*}
+  \mathbb{E}(X) &= \mathbb{E}\left(\sum_{v \in V} X_v\right) \\
+  &= \sum_{v \in V} \mathbb{E}(X_v) \\
+  &= \sum_{v \in V} \frac{1}{4 \deg(v) - 2} \\
+  &\ge \sum_{v \in V} \frac{1}{4 \Delta - 2} \\
+  &> \sum_{v \in V} \frac{1}{4 \Delta} \\
+  &= \frac{1}{4 \Delta} n \enspace.
+\end{align*}
+In expectation, $\frac{1}{4 \Delta}$ nodes thus halt in each round, and the
+procedure therefore produces a proper $2 \Delta$ coloring of $G$ in $O(\log n)$
+rounds with high probability.
+
+\newpage
+
+\begin{question}
+  TODO
+\end{question}
+
+\newpage
+
+\begin{question}
+  TODO
+\end{question}
+
+\end{document}
