@@ -29,33 +29,34 @@
   (Correctness) At each round a node $v$ picks a color $c(v)$ uniformly at
   random from the range $1, 2, \ldots, 2 \deg(v)$. Then, node $v$ sends its
   chosen color $c(v)$ to all its neighbors. Similarly, node $v$ would also
-  receive colors from its active neighbors. If one of $v$'s neighbors previously
-  halted while $v$ is still active, $v$ uses the last color it received from the
-  neighbor. For each neighbor $u$ of node $v$, if $c(v) \neq c(u)$, the
-  condition that neighboring vertices are assigned different colors is
-  satisfied, so node $v$ outputs $c(v)$ and halts. Therefore, this protocol
-  produces a proper $2 \Delta$ coloring of $G$.
+  receive colors from its active neighbors. If one of $v$'s neighbors has
+  already halted, $v$ uses the last color it received from the neighbor. For
+  each neighbor $u$ of node $v$, if $c(v) \neq c(u)$, the condition that
+  neighboring vertices are assigned different colors is satisfied, so node $v$
+  outputs $c(v)$ and halts. Therefore, this protocol produces a proper $2
+  \Delta$ coloring of $G$.
 
   (Congestion) Since the protocol only requires nodes to send colors from the
   range $1, 2, \ldots, 2 \Delta$ to neighboring nodes, only messages of size
   $O(1)$ bits are being sent. Thus, the protocol is in the CONGEST model.
 
   (Runtime) To show that the protocol produces a proper $2 \Delta$ coloring of
-  $G$ in $O(\log n)$, first define the random variable $X_v$ for whether a given
-  node $v$ halts in a given round. Specifically, $X_v$ is 1 if node $v$ halts in
-  the given round, and 0 otherwise. For a given round, node $v$'s neighbors
-  could choose at most $\deg(v)$ distinct colors. We also know that node $v$
-  chooses uniformly at random $2 \deg(v)$ from colors. As such, the probability
-  that node $v$ chooses the same color as one of its neighbors, is at most
-  $\frac{\deg(v)}{2 \deg(v)} = \frac{1}{2}$. It follows that the probability
-  $\mathbb{P}(X_v)$ that node $v$ halts in a given round (i.e., choosing a
-  different color from its neighbors) is
+  $G$ in $O(\log n)$ rounds, first define the random variable $X_v$ for whether
+  a node $v$ halts in a given round. Specifically, $X_v$ is 1 if node $v$ halts
+  in the given round, and 0 otherwise. For a given round, since node $v$ has
+  $\deg(v)$ neighbors, its neighbors can choose at most $\deg(v)$ distinct
+  colors from each other. We also know that node $v$ chooses uniformly at random
+  from $2 \deg(v)$ colors. As such, the probability that node $v$ chooses the
+  same color as one of its neighbors, is at most $\frac{\deg(v)}{2 \deg(v)} =
+  \frac{1}{2}$. It follows that the probability $\mathbb{P}(X_v)$ that node $v$
+  halts in a given round (i.e., choosing a different color from its neighbors)
+  is
   \begin{align*}
     \mathbb{P}(X_v) &\ge 1 - \frac{1}{2} \\
     &= \frac{1}{2}.
   \end{align*}
-  It follows that the expected value $\mathbb{E}(X_v)$ of node $v$ halting in a
-  given round is
+  Hence, the expected value $\mathbb{E}(X_v)$ of node $v$ halting in a given
+  round is
   \begin{align*}
     \mathbb{E}(X_v) &\ge 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{2} \\
     &= \frac{1}{2}.
@@ -72,8 +73,8 @@
     &\ge \sum_{v \in V} \frac{1}{2} \\
     &= \frac{1}{2} n
   \end{align*}
-  In expectation, at least $\frac{1}{2}$ of all nodes halt in each round. So if
-  $n = n_0, n_1, \ldots, n_k$ are the number of active nodes after iterations
+  Thus, in expectation, at least $\frac{1}{2}$ of all nodes halt in each round.
+  If $n = n_0, n_1, \ldots, n_k$ are the number of active nodes after iterations
   $0, 1, \ldots, k$, we have that
   \[
     \mathbb{E}(n_k) \le \frac{1}{2^k} \cdot n.
@@ -82,11 +83,11 @@
   \begin{align*}
     \mathbb{E}(n_k) &\le \frac{1}{2^{4 \log n}} \cdot n \\
     &= \frac{1}{n^4} \cdot n \\
-    &\le \frac{1}{n^2}.
+    &= \frac{1}{n^3}.
   \end{align*}
   By Markov's Inequality, it follows that $\mathbb{P}(n_k \ge 1) \le
-  \frac{1}{n^2}$. That is, after $4 \log n$ rounds, the probability that there
-  are one or more active nodes is at most $\frac{1}{n^2}$. Therefore, the
+  \frac{1}{n^3}$. That is, after $4 \log n$ rounds, the probability that there
+  are one or more active nodes is at most $\frac{1}{n^3}$. Therefore, the
   protocol produces a proper $2 \Delta$ coloring of $G$ in $O(\log n)$ rounds
   with high probability.
 \end{question}
