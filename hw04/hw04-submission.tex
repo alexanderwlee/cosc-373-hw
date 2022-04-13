@@ -25,44 +25,71 @@
     \item Send message $c(v)$ to all neighbors
     \item If $c(v) \neq c(u)$ for all neighbors $u$, output $c(v)$ and halt
   \end{enumerate}
-\end{question}
 
-(Runtime) To show that the procedure produces a proper $2 \Delta$ coloring of
-$G$ in $O(\log n)$, first define the random variable $X_v$ for whether a given
-node $v$ halts in a given round. Specifically, $X_v$ is 1 if node $v$ halts in
-the given round, and 0 otherwise. The probability $\mathbb{P}(X_v)$ that node
-$v$ halts in a given round, is the probability $\frac{1}{2 \deg(v)}$ that node $v$
-chooses color $c(v)$ from the $2 \deg(v)$ colors times the probability
-$\frac{\deg(v)}{2 \deg(v) - 1}$ that each of node $v$'s $\deg(v)$ neighbors do
-not choose the color $c(v)$ from the $2 \deg(v)$ colors. That is,
-\begin{align*}
-  \mathbb{P}(X_v) &= \frac{1}{2 \deg(v)} \cdot \frac{\deg(v)}{2 \deg(v) - 1} \\
-  &= \frac{1}{4 \deg(v) - 2} \enspace.
-\end{align*}
-It follows that the expected value $\mathbb{E}(X_v)$ of node $v$ halting in a
-given round is
-\begin{align*}
-  \mathbb{E}(X_v) &= 1 \cdot \frac{1}{4 \deg(v) - 2} + 0 \cdot (1 - \frac{1}{4
-  \deg(v) - 2}) \\
-  &= \frac{1}{4 \deg(v) - 2} \enspace.
-\end{align*}
-Next, define the random variable $X$ for the number of nodes that halt in a
-given round. Given the set of nodes $V$ for graph $G$, we have that
-\[
-  X = \sum_{v \in V} X_v \enspace.
-\]
-Taking the expected value on both sides, we get
-\begin{align*}
-  \mathbb{E}(X) &= \mathbb{E}\left(\sum_{v \in V} X_v\right) \\
-  &= \sum_{v \in V} \mathbb{E}(X_v) \\
-  &= \sum_{v \in V} \frac{1}{4 \deg(v) - 2} \\
-  &\ge \sum_{v \in V} \frac{1}{4 \Delta - 2} \\
-  &> \sum_{v \in V} \frac{1}{4 \Delta} \\
-  &= \frac{1}{4 \Delta} n \enspace.
-\end{align*}
-In expectation, $\frac{1}{4 \Delta}$ nodes thus halt in each round, and the
-procedure therefore produces a proper $2 \Delta$ coloring of $G$ in $O(\log n)$
-rounds with high probability.
+  (Correctness) At each round a node $v$ picks a color $c(v)$ uniformly at
+  random from the range $1, 2, \ldots, 2 \deg(v)$. Then, node $v$ sends its
+  chosen color $c(v)$ to all its neighbors. Similarly, node $v$ would also
+  receive colors from its active neighbors. If one of $v$'s neighbors previously
+  halted while $v$ is still active, $v$ uses the last color it received from the
+  neighbor. For each neighbor $u$ of node $v$, if $c(v) \neq c(u)$, the
+  condition that neighboring vertices are assigned different colors is
+  satisfied, so node $v$ outputs $c(v)$ and halts. Therefore, this protocol
+  produces a proper $2 \Delta$ coloring of $G$.
+
+  (Congestion) Since the protocol only requires nodes to send colors from the
+  range $1, 2, \ldots, 2 \Delta$ to neighboring nodes, only messages of size
+  $O(1)$ bits are being sent. Thus, the protocol is in the CONGEST model.
+
+  (Runtime) To show that the protocol produces a proper $2 \Delta$ coloring of
+  $G$ in $O(\log n)$, first define the random variable $X_v$ for whether a given
+  node $v$ halts in a given round. Specifically, $X_v$ is 1 if node $v$ halts in
+  the given round, and 0 otherwise. For a given round, node $v$'s neighbors
+  could choose at most $\deg(v)$ distinct colors. We also know that node $v$
+  chooses uniformly at random $2 \deg(v)$ from colors. As such, the probability
+  that node $v$ chooses the same color as one of its neighbors, is at most
+  $\frac{\deg(v)}{2 \deg(v)} = \frac{1}{2}$. It follows that the probability
+  $\mathbb{P}(X_v)$ that node $v$ halts in a given round (i.e., choosing a
+  different color from its neighbors) is
+  \begin{align*}
+    \mathbb{P}(X_v) &\ge 1 - \frac{1}{2} \\
+    &= \frac{1}{2}.
+  \end{align*}
+  It follows that the expected value $\mathbb{E}(X_v)$ of node $v$ halting in a
+  given round is
+  \begin{align*}
+    \mathbb{E}(X_v) &\ge 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{2} \\
+    &= \frac{1}{2}.
+  \end{align*}
+  Next, define the random variable $X$ for the number of nodes that halt in a
+  given round. Given the set of nodes $V$ for graph $G$, we have that
+  \[
+    X = \sum_{v \in V} X_v \enspace.
+  \]
+  Taking the expected value on both sides, we get
+  \begin{align*}
+    \mathbb{E}(X) &= \mathbb{E}\left(\sum_{v \in V} X_v\right) \\
+    &= \sum_{v \in V} \mathbb{E}(X_v) \\
+    &\ge \sum_{v \in V} \frac{1}{2} \\
+    &= \frac{1}{2} n
+  \end{align*}
+  In expectation, at least $\frac{1}{2}$ of all nodes halt in each round. So if
+  $n = n_0, n_1, \ldots, n_k$ are the number of active nodes after iterations
+  $0, 1, \ldots, k$, we have that
+  \[
+    \mathbb{E}(n_k) \le \frac{1}{2^k} \cdot n.
+  \]
+  Taking $k = 4 \log n$, we get
+  \begin{align*}
+    \mathbb{E}(n_k) &\le \frac{1}{2^{4 \log n}} \cdot n \\
+    &= \frac{1}{n^4} \cdot n \\
+    &\le \frac{1}{n^2}.
+  \end{align*}
+  By Markov's Inequality, it follows that $\mathbb{P}(n_k \ge 1) \le
+  \frac{1}{n^2}$. That is, after $4 \log n$ rounds, the probability that there
+  are one or more active nodes is at most $\frac{1}{n^2}$. Therefore, the
+  protocol produces a proper $2 \Delta$ coloring of $G$ in $O(\log n)$ rounds
+  with high probability.
+\end{question}
 
 \newpage
 
