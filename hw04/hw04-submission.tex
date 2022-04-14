@@ -1,6 +1,7 @@
 \documentclass{amsart}
 
 \usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{amssymb}
 \usepackage{enumitem}
 
 \title{COSC-373: Homework 4}
@@ -95,26 +96,43 @@
 \newpage
 
 \begin{question}
-\begin{enumerate}
-For F = \{($A_1$, $A^c_1$) $|$ A $\subseteq$ \{1,2,... N\}\} to be a fooling set for function DISJ, we must prove the following: 
-    \item For all i,j we have DISJ($A_i$, $A^c_i$) = DISJ($A_j$, $A^c_j$)
-    \item For all i,j  we have DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) OR  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
-\\To prove part 1, suppose we have an arbitrary complementary pair of sets in F, ($A_i$, $A^c_i$). Since F is the set of all pairs of sets ($A$, $A^c$) where $A^c$ is the complement of $A$, $A^c$ is the set of elements from {1,2,...,N} that are NOT contained in $A$. Therefore, $A$ and $A^c$ have no elements in common and for all i, any pair of sets in F would return DISJ($A_i$, $A^c_i$) = 1. Thus, for all i and j, we have DISJ($A_i$, $A^c_i$) = DIDJ($A_j$, $A^c_j$) = 1.  
-\\To prove part 2,  suppose we have an arbitrary complementary pair of sets in F, ($A_i$, $A^c_i$), and another arbitrary complementary pair of sets in F, ($A_j$, $A^c_j$). Thus, we have three situations that could occur:
-    \item $A_j$ shares elements with only $A_i$ but does not equal $A_i$ 
-    \begin{enumerate}[label={(\alph*)}]
-        \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 1. Thus, DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$)
-    \end{enumerate}
-    \item $A_j$ shares elements with only $A^c_i$ but does not equal $A^c_i$
-    \begin{enumerate}[label={(\alph*)}]
-    \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 0. Thus,  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) and  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
-    \end{enumerate}
-    \item Aj shares elements with both Ai and Aci
-    \begin{enumerate}[label={(\alph*)}]
-    \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 0. Thus,  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) and  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
-    \end{enumerate}
-Thus, for all i,j  we have DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) OR  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$) and we prove that F is a fooling set of the function DISJ. 
-\end{enumerate}
+  For $F = \{(A, A^c) \mid A \subseteq \{1, 2, \ldots, N\}\}$ to be a fooling
+  set for function DISJ, we must prove the following conditions:
+  \begin{enumerate}
+    \item For all $i, j$, we have $\text{DISJ}(A_i, A_i^c) = \text{DISJ}(A_j,
+      A_j^c)$; and
+    \item For all $i \neq j$, we have $\text{DISJ}(A_i, A_i^c) \neq
+      \text{DISJ}(A_i, A_j^c)$ or  $\text{DISJ}(A_i, A_i^c) \neq
+      \text{DISJ}(A_j, A_i^c)$.
+  \end{enumerate}
+
+  To prove condition (1), let $(A_i, A_i^c) \in F$. Since $A_i^c$ is the
+  complement of $A_i$, it follows that $A_i$ and $A_i^c$ are disjoint since $A_i
+  \cap A_i^c = \emptyset$. Thus, $\text{DISJ}(A_i, A_i^c) = 1$. Notice that
+  $(A_i, A_i^c)$ is any arbitrary element in $F$. Therefore, for all $i, j$
+  where $(A_i, A_i^c), (A_j, A_j^c) \in F$, we have that $\text{DISJ}(A_i,
+  A_i^c) = 1 = \text{DISJ}(A_j, A_j^c)$.
+
+  To prove condition (2), let $(A_i, A_i^c), (A_j, A_j^c) \in F$, where $i \neq
+  j$. Three cases are possible.
+
+  Case 1: $A_j \subset A_i$ (and $A_j \not\subset A_i^c$). This implies that
+  $A_i \cap A_j^c \neq \emptyset$ and $A_j \cap A_i^c = \emptyset$. Thus, we
+  have that $\text{DISJ}(A_i, A_j^c) = 0$ and $\text{DISJ}(A_j, A_i^c) = 1$.
+  Since $\text{DISJ}(A_i, A_i^c) = 1 \neq 0 = \text{DISJ}(A_i, A_j^c)$,
+  condition (2) is satisfied for this case.
+
+  Case 2: $A_j \subset A_i^c$ (and $A_j \not\subset A_i$). This implies that
+  $A_i \cap A_j^c \neq \emptyset$ and $A_j \cap A_i^c \neq \emptyset$. Hence, we
+  have that $\text{DISJ}(A_i, A_j^c) = 0$ and $\text{DISJ}(A_j, A_i^c) = 0$.
+  Since $\text{DISJ}(A_i, A_i^c) = 1 \neq 0 = \text{DISJ}(A_i, A_j^c)$,
+  condition (2) is also satisfied for this case.
+
+  Case 3: $A_j \not\subset A_i$ and  $A_j \not\subset A_i^c$. This implies that
+  $A_i \cap A_j^c \neq \emptyset$ and $A_j \cap A_i^c \neq \emptyset$. It
+  follows that $\text{DISJ}(A_i, A_j^c) = 0$ and $\text{DISJ}(A_j, A_i^c = 0)$.
+  Since $\text{DISJ}(A_i, A_i^c) = 1 \neq 0 = \text{DISJ}(A_i, A_j^c)$,
+  condition (2) is satisfied for this case, and the proof is complete.
 \end{question}
 
 \newpage
