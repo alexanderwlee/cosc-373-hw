@@ -95,7 +95,26 @@
 \newpage
 
 \begin{question}
-  TODO
+\begin{enumerate}
+For F = \{($A_1$, $A^c_1$) $|$ A $\subseteq$ \{1,2,... N\}\} to be a fooling set for function DISJ, we must prove the following: 
+    \item For all i,j we have DISJ($A_i$, $A^c_i$) = DISJ($A_j$, $A^c_j$)
+    \item For all i,j  we have DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) OR  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
+\\To prove part 1, suppose we have an arbitrary complementary pair of sets in F, ($A_i$, $A^c_i$). Since F is the set of all pairs of sets ($A$, $A^c$) where $A^c$ is the complement of $A$, $A^c$ is the set of elements from {1,2,...,N} that are NOT contained in $A$. Therefore, $A$ and $A^c$ have no elements in common and for all i, any pair of sets in F would return DISJ($A_i$, $A^c_i$) = 1. Thus, for all i and j, we have DISJ($A_i$, $A^c_i$) = DIDJ($A_j$, $A^c_j$) = 1.  
+\\To prove part 2,  suppose we have an arbitrary complementary pair of sets in F, ($A_i$, $A^c_i$), and another arbitrary complementary pair of sets in F, ($A_j$, $A^c_j$). Thus, we have three situations that could occur:
+    \item $A_j$ shares elements with only $A_i$ but does not equal $A_i$ 
+    \begin{enumerate}[label={(\alph*)}]
+        \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 1. Thus, DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$)
+    \end{enumerate}
+    \item $A_j$ shares elements with only $A^c_i$ but does not equal $A^c_i$
+    \begin{enumerate}[label={(\alph*)}]
+    \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 0. Thus,  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) and  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
+    \end{enumerate}
+    \item Aj shares elements with both Ai and Aci
+    \begin{enumerate}[label={(\alph*)}]
+    \item DISJ($A_i$, $A^c_i$) = 1, DISJ($A_i$, $A^c_j$) = 0, DISJ($A_j$, $A^c_i$) = 0. Thus,  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) and  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$)
+    \end{enumerate}
+Thus, for all i,j  we have DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_i$, $A^c_j$) OR  DISJ($A_i$, $A^c_i$) $\neq$ DISJ($A_j$, $A^c_i$) and we prove that F is a fooling set of the function DISJ. 
+\end{enumerate}
 \end{question}
 
 \newpage
