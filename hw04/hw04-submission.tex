@@ -138,7 +138,29 @@
 \newpage
 
 \begin{question}
-  TODO
+  The table below shows the result of GT for x and y values between 0 and $2^N-1$ for $N=3$ (x values on columns and y values on rows).
+
+  \begin{tabular}{ r | c c c c c c c c }
+     & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+    0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    2 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+    3 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+    4 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+    5 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\
+    6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+    7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  \end{tabular}
+
+  In general, for x and y values between 0 and $2^N-1$, GT(x,y) is 0 on the diagonal ($x=y$), 0 below the diagonal ($x<y$), and 1 above the diagnoal ($x>y$). Then, a fooling set of GT is the diagonal of the table,
+  $F=\{(0,0), (1,1), (2,2), \ldots, (2^N-1,2^N-1)\}$. $F$ is a fooling set of GT because\\
+  (1)For all $i, j$, $f(x_i,y_i)=f(x_j,y_j)=0$ and \\
+  (2)For all $i>j$, $f(x_i, y_j) = 1 \neq f(x_i, y_i)=0$ 
+  and for all $i<j$, $f(x_j, y_i) = 1 \neq f(x_i, y_i)=0$.
+  Combining the two, for all $i \neq j$, $f(x_i, y_i) \neq f(x_i, y_j)$ or $f(x_i, y_i) \neq f(x_j, y_i)$. 
+
+  The size of $F$ is $|F|=2^N$. The fooling set method states that for a function $f$ and a fooling set $F$ of size $l$, $D(f) \ge log(l)$. Applying this to GT, $D(GT) \ge log(|F|) = log(2^N) = N$. Therefore, the deterministic communication complexity of GT is at least $N$. 
+
 \end{question}
 
 \end{document}
